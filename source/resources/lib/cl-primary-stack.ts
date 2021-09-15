@@ -414,9 +414,9 @@ export class CLPrimary extends Stack {
     const helperProvider: Provider = new Provider(this, "HelperProvider", {
       onEventHandler: helperFunc,
     });
-    (helperProvider.node.children[0].node.findChild(
-      "Resource"
-    ) as CfnFunction).cfnOptions.metadata = {
+    (
+      helperProvider.node.children[0].node.findChild("Resource") as CfnFunction
+    ).cfnOptions.metadata = {
       cfn_nag: {
         rules_to_suppress: [
           {
