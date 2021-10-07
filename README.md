@@ -140,6 +140,7 @@ See license [here](./LICENSE.txt)
 
 ## Manifest.json it contains runtime configuration
 
+```
 {
 "solutionId": "SO0009",
 "metricsEndpoint": "https://metrics.awssolutionsbuilder.com/generic",
@@ -161,6 +162,7 @@ See license [here](./LICENSE.txt)
 "retentionInHrs": 24
 }
 }
+```
 
 ## Steps to execute the aws centralized log stack for master log/ELK Account:
 
@@ -222,69 +224,70 @@ cdk deploy CL-PrimaryStack --parameters AdminEmail=<EMAIL> --parameters SpokeAcc
 ## Customization of command to create stack:
 
 ````
-ClusterSize:
-"Elasticsearch cluster size; small (4 data nodes), medium (6 data nodes), large (6 data nodes)",
-type: "String",
-default: "Small",
-allowedValues: ["Small", "Medium", "Large"],
+      ClusterSize:
+      "Elasticsearch cluster size; small (4 data nodes), medium (6 data nodes), large (6 data nodes)",
+      type: "String",
+      default: "Small",
+      allowedValues: ["Small", "Medium", "Large"],
 
-const esMap = new CfnMapping(this, "ESMap", {
-mapping: {
-NodeCount: {
-Small: 4,
-Medium: 6,
-Large: 6,
-},
+      const esMap = new CfnMapping(this, "ESMap", {
+      mapping: {
+      NodeCount: {
+      Small: 4,
+      Medium: 6,
+      Large: 6,
+      },
 
-MasterSize: {
-Small: "c5.large.elasticsearch",
-Medium: "c5.large.elasticsearch",
-Large: "c5.large.elasticsearch",
-},
-InstanceSize: {
-Small: "r5.large.elasticsearch",
-Medium: "r5.2xlarge.elasticsearch",
-Large: "r5.4xlarge.elasticsearch",
-},
-},
-});
-```
+      MasterSize: {
+      Small: "c5.large.elasticsearch",
+      Medium: "c5.large.elasticsearch",
+      Large: "c5.large.elasticsearch",
+      },
+      InstanceSize: {
+      Small: "r5.large.elasticsearch",
+      Medium: "r5.2xlarge.elasticsearch",
+      Large: "r5.4xlarge.elasticsearch",
+      },
+      },
+      });
+      ```
 
-/\*\*
+      /\*\*
 
-- @description Option to deploy demo template
-- @type {CfnParameter}
-  \*/
-  const demoTemplate: CfnParameter = new CfnParameter(this, "DemoTemplate", {
-  description: "Deploy demo template for sample data and logs?",
-  type: "String",
-  default: "No",
-  allowedValues: ["No", "Yes"],
-  });
+      - @description Option to deploy demo template
+      - @type {CfnParameter}
+        \*/
+        const demoTemplate: CfnParameter = new CfnParameter(this, "DemoTemplate", {
+        description: "Deploy demo template for sample data and logs?",
+        type: "String",
+        default: "No",
+        allowedValues: ["No", "Yes"],
+        });
 
-/\*\*
+      /\*\*
 
-- @description List of spoke account ids
-- @type {CfnParameter}
-  \*/
-  const spokeAccts: CfnParameter = new CfnParameter(this, "SpokeAccounts", {
-  description:
-  "Account IDs which you want to allow for centralized logging (comma separated list eg. 11111111,22222222)",
-  type: "CommaDelimitedList",
-  });
+      - @description List of spoke account ids
+      - @type {CfnParameter}
+        \*/
+        const spokeAccts: CfnParameter = new CfnParameter(this, "SpokeAccounts", {
+        description:
+        "Account IDs which you want to allow for centralized logging (comma separated list eg. 11111111,22222222)",
+        type: "CommaDelimitedList",
+        });
 
-/\*\*
+      /\*\*
 
-- @regions List of regions for CW Logs Destination
-- @type {CfnParameter}
-  \*/
-  const spokeRegions: CfnParameter = new CfnParameter(this, "SpokeRegions", {
-  description:
-  "Regions which you want to allow for centralized logging (comma separated list eg. us-east-1,us-west-2)",
-  type: "CommaDelimitedList",
-  default: "All",
-  });
-```
+      - @regions List of regions for CW Logs Destination
+      - @type {CfnParameter}
+        \*/
+        const spokeRegions: CfnParameter = new CfnParameter(this, "SpokeRegions", {
+        description:
+        "Regions which you want to allow for centralized logging (comma separated list eg. us-east-1,us-west-2)",
+        type: "CommaDelimitedList",
+        default: "All",
+        });
+
+````
 
 11. Once deploy command is successful, it will create windows instance and allow 443 port to access Kibana URL is tunneling
 
@@ -297,8 +300,11 @@ Steps:
 3. Run the following command to create group subscription
 
 ```
-   aws logs put-subscription-filter --destination-arn arn:aws:logs:<region>:XXXXXXX:destination:CL-Destination --log-group-name <MyLogGroup> --filter-name <MyFilterName> --filter-pattern <MyFilterPattern> --profile <MyAWSProfile>
+
+aws logs put-subscription-filter --destination-arn arn:aws:logs:<region>:XXXXXXX:destination:CL-Destination --log-group-name <MyLogGroup> --filter-name <MyFilterName> --filter-pattern <MyFilterPattern> --profile <MyAWSProfile>
+
 ```
+
 4. Take some time to transfer log
 5. Check Kibana Dashboard
 
@@ -306,4 +312,3 @@ Steps:
 
 1. Create Index at Kibana Dashboard based on the application log type
 2. For Cloud-watch log index : cl-w-\*
-````
