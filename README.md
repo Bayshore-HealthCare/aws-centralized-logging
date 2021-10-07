@@ -167,35 +167,63 @@ See license [here](./LICENSE.txt)
 Prerequisite:
 
 1. Ensure AWS CLI is install and configure the profile
-2. Ensure CDK is install:
-   npm install -g aws-cdk
+2. Ensure CDK is install, if not install with following command:
+
+```
+  npm install -g aws-cdk
+```
 
 3. Good to run with ubuntu box with nodejs-10/12
 4. Open project and run following command
+
+```
    npm i
    npm run prettier-format
    npm run lint
+```
+
 5. Run npm run build . it will create zip file for both service and transformer lambda
-6. Once build is successful, go to resources folder cd source/resources
-7. Run npm i
-8. After completion of npm i, go to bin folder; cd bin
+6. Once build is successful, go to resources folder:
+
+```
+cd source/resources
+
+```
+
+7. Run
+
+```
+ npm i
+```
+
+8. After completion of npm i, go to bin folder;
+
+```
+cd bin
+
+```
+
 9. Create key pair from AWS Console->EC2->Left side menu Key pairs and put this key pair name in bellow command
 10. Run the following command:
 
+```
 cdk bootstrap --profile <PROFILE_NAME> [it will do CDK bootstrapping and create bootstrap stack]
 cdk synth CL-PrimaryStack [ it will do synth of primary stack and show complete cloudformation template]
 cdk deploy CL-PrimaryStack --parameters AdminEmail=<EMAIL> --parameters SpokeAccounts=<ACCOUNT-ID-1,ACCOUNT-ID-2...> --parameters JumpboxKey=<EC2_KEY_PAIR> --parameters JumpboxDeploy='Yes' --profile <PROFILE_NAME>
+```
 
 [Put the key pair name to this EC2_Key_Pair, Admin email is the Administrator access of Kibana Dashboard and master Email]
 
 ## Customization of command to create stack:
 
+````
 ClusterSize:
 "Elasticsearch cluster size; small (4 data nodes), medium (6 data nodes), large (6 data nodes)",
 type: "String",
 default: "Small",
 allowedValues: ["Small", "Medium", "Large"],
-
+```
+```
 const esMap = new CfnMapping(this, "ESMap", {
 mapping: {
 NodeCount: {
@@ -203,6 +231,8 @@ Small: 4,
 Medium: 6,
 Large: 6,
 },
+```
+```
 MasterSize: {
 Small: "c5.large.elasticsearch",
 Medium: "c5.large.elasticsearch",
@@ -215,6 +245,7 @@ Large: "r5.4xlarge.elasticsearch",
 },
 },
 });
+```
 
 /\*\*
 
@@ -258,9 +289,11 @@ Large: "r5.4xlarge.elasticsearch",
 Steps:
 
 1. Need create subscription filter for each group
-2. Copy the command from cloudformation stack, command can be found on this: CL-PrimaryStack.DestinationSubscriptionCommand
+2. Copy the command from cloudformation stack, command can be found on the cloudformation stack: CL-PrimaryStack.DestinationSubscriptionCommand
 3. Run the following command to create group subscription
+```
    aws logs put-subscription-filter --destination-arn arn:aws:logs:<region>:XXXXXXX:destination:CL-Destination --log-group-name <MyLogGroup> --filter-name <MyFilterName> --filter-pattern <MyFilterPattern> --profile <MyAWSProfile>
+   ```
 4. Take some time to transfer log
 5. Check Kibana Dashboard
 
@@ -268,3 +301,4 @@ Steps:
 
 1. Create Index at Kibana Dashboard based on the application log type
 2. For Cloud-watch log index : cl-w-\*
+````
