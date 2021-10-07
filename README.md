@@ -162,7 +162,7 @@ See license [here](./LICENSE.txt)
 }
 }
 
-## Steps to run:
+## Steps to execute the aws centralized log stack for master log/ELK Account:
 
 Prerequisite:
 
@@ -170,18 +170,16 @@ Prerequisite:
 2. Ensure CDK is install:
    npm install -g aws-cdk
 
-## Steps to execute the code for master log/ELK Account:
-
-3.  Good to run with ubuntu box with nodejs-10/12
-4.  Open project and run following command
-    npm i
-    npm run prettier-format
-    npm run lint
-5.  Run npm run build . it will create zip file for both service and transformer lambda
-6.  Once build is successful, go to resources folder cd source/resources
-7.  Run npm i
-8.  After completion of npm i, go to bin folder; cd bin
-9.  Create key pair from AWS Console->EC2->Left side menu Key pairs and put this key pair name in bellow command
+3. Good to run with ubuntu box with nodejs-10/12
+4. Open project and run following command
+   npm i
+   npm run prettier-format
+   npm run lint
+5. Run npm run build . it will create zip file for both service and transformer lambda
+6. Once build is successful, go to resources folder cd source/resources
+7. Run npm i
+8. After completion of npm i, go to bin folder; cd bin
+9. Create key pair from AWS Console->EC2->Left side menu Key pairs and put this key pair name in bellow command
 10. Run the following command:
 
 cdk bootstrap --profile <PROFILE_NAME> [it will do CDK bootstrapping and create bootstrap stack]
