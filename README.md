@@ -182,7 +182,12 @@ Prerequisite:
    npm run lint
 ```
 
-5. Run npm run build . it will create zip file for both service and transformer lambda
+5. Run build command to build the supported artifacts.it will create zip file for both service and transformer lambda
+
+```
+npm run build
+```
+
 6. Once build is successful, go to resources folder:
 
 ```
@@ -222,8 +227,7 @@ ClusterSize:
 type: "String",
 default: "Small",
 allowedValues: ["Small", "Medium", "Large"],
-```
-```
+
 const esMap = new CfnMapping(this, "ESMap", {
 mapping: {
 NodeCount: {
@@ -231,8 +235,7 @@ Small: 4,
 Medium: 6,
 Large: 6,
 },
-```
-```
+
 MasterSize: {
 Small: "c5.large.elasticsearch",
 Medium: "c5.large.elasticsearch",
@@ -281,6 +284,7 @@ Large: "r5.4xlarge.elasticsearch",
   type: "CommaDelimitedList",
   default: "All",
   });
+```
 
 11. Once deploy command is successful, it will create windows instance and allow 443 port to access Kibana URL is tunneling
 
@@ -291,9 +295,10 @@ Steps:
 1. Need create subscription filter for each group
 2. Copy the command from cloudformation stack, command can be found on the cloudformation stack: CL-PrimaryStack.DestinationSubscriptionCommand
 3. Run the following command to create group subscription
+
 ```
    aws logs put-subscription-filter --destination-arn arn:aws:logs:<region>:XXXXXXX:destination:CL-Destination --log-group-name <MyLogGroup> --filter-name <MyFilterName> --filter-pattern <MyFilterPattern> --profile <MyAWSProfile>
-   ```
+```
 4. Take some time to transfer log
 5. Check Kibana Dashboard
 
